@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './styles.css';
 
 function App() {
   const [alunos, setAlunos] = useState([]);
@@ -18,17 +19,33 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     // Adicionar um novo aluno
     axios.post('http://localhost:3001/alunos', { nome })
       .then(response => {
-        setAlunos([...alunos, response.data]);
+        const novoAluno = response.data;
+        setAlunos([...alunos, novoAluno]);
         setNome('');
       })
       .catch(error => {
         console.error("Houve um erro ao adicionar o aluno!", error);
       });
   };
+  
+  
+
+  const handleDelete = (id) => {
+    console.log("Deleting student with ID:", id); // Adicionando um log para verificar o ID
+    // Excluir um aluno
+    axios.delete(`http://localhost:3001/alunos/${id}`)
+      .then(() => {
+        setAlunos(alunos.filter(aluno => aluno.id !== id));
+      })
+      .catch(error => {
+        console.error("Houve um erro ao excluir o aluno!", error);
+      });
+  };
+  
 
   return (
     <div className="App">
@@ -45,9 +62,12 @@ function App() {
       </form>
       <h2>Lista de Alunos</h2>
       <ul>
-        {alunos.map((aluno, index) => (
-          <li key={index}>{aluno.nome}</li>
-        ))}
+      {alunos.map((aluno) => (
+      <li key={aluno.id}>
+        {aluno.nome}
+        <button onClick={() => handleDelete(aluno.id)}>Excluir</button>
+      </li>
+    ))}
       </ul>
     </div>
   );

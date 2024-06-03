@@ -1,0 +1,19 @@
+
+npm init -y
+
+npm install express cors body-parser
+
+Crie um arquivo index.js com o seguinte conteúdo
+
+
+Inicie o servidor:: node index.js
+
+-----------------------------------
+
+Inicialize um novo projeto React:
+npx create-react-app alunos-frontend
+cd alunos-frontend
+
+Instale a dependência axios para facilitar as requisições HTTP:
+
+npm install axios
